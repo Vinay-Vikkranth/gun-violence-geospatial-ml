@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="A research workspace for exploring the gun violence study, original measurements, and reproducible model scenarios.">
+<title>Study Atlas | Gun Violence Digital Twin</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
+<link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+<a class="skip" href="#workspace">Skip to workspace</a>
+<header class="topbar">
+ <a class="brand" href="/" aria-label="Study Atlas home"><svg viewBox="0 0 40 44" aria-hidden="true"><path d="M20 2 37 12v20L20 42 3 32V12Z"/><path d="m3 12 17 10 17-10M20 22v20"/></svg><span>STUDY ATLAS<small>GUN VIOLENCE DIGITAL TWIN</small></span></a>
+ <nav aria-label="Workspace views"><button class="nav active" data-view="explore" aria-current="page">Explore</button><button class="nav" data-view="saved">Scenario library <span id="savedCount">0</span></button><button class="nav" data-view="evidence">Data & evidence</button></nav>
+ <div class="local-badge"><i></i> LOCAL RESEARCH WORKSPACE</div>
+</header>
+<div id="notice" class="notice" role="alert" hidden><span></span><button aria-label="Dismiss message">×</button></div>
+<main id="workspace">
+<section id="view-explore" class="view active" aria-label="Explore the study">
+ <div class="page-heading"><div><p class="eyebrow">SPATIAL INTELLIGENCE / STUDY EXPLORER</p><h1>A closer look at place.</h1><p class="subtitle">Explore the observed data. Test a scenario. Understand the model.</p></div><div class="study-stats"><div><strong id="statCities">—</strong><span>study cities</span></div><div><strong id="statHexes">—</strong><span>hexagons</span></div><div><strong id="statIncidents">—</strong><span>recorded incidents</span></div></div></div>
+ <div class="workspace-grid">
+  <aside class="browser panel" aria-label="Location browser">
+   <div class="panel-heading"><span class="section-number">01</span><h2>Choose a place</h2></div>
+   <label class="field">Study city<select id="city"><option value="">All 35 cities</option></select></label>
+   <label class="field">Find a hexagon<input id="search" type="search" placeholder="Search GRID_ID…" autocomplete="off"></label>
+   <div class="list-toolbar"><span id="resultCount" aria-live="polite">Loading study…</span><label class="sr-only" for="sort">Sort locations</label><select id="sort"><option value="score">LightGBM score</option><option value="incidents">Incidents</option><option value="id">Grid ID / name</option></select></div>
+   <div id="locations" class="location-list" aria-label="Locations"></div>
+   <div class="pagination" id="pagination" hidden><button id="prev" class="small">← Previous</button><span id="pageCount"></span><button id="next" class="small">Next →</button></div>
+   <div class="browser-foot"><span class="tiny-dot"></span> Original project data · no synthetic observations</div>
+  </aside>
+  <section class="map-panel panel" aria-label="Study map">
+   <div class="map-top"><div><span class="eyebrow">STUDY COVERAGE</span><h2 id="mapTitle">35 cities. One research workspace.</h2></div><button id="allCities" class="small">All cities ↗</button></div>
+   <div class="map-controls"><label class="sr-only" for="layer">Map layer</label><select id="layer"><option value="score">LightGBM baseline score</option><option value="incidents">Recorded incidents</option><option value="scenario">Selected scenario / other baselines</option></select><span id="mapStatus">City summaries</span></div>
+   <div class="map-wrap"><div id="map" aria-label="Interactive study map"></div><div id="schematic" hidden></div><div id="mapFallback" hidden>Map tiles are unavailable. All locations and scenario tools remain accessible in the list.</div><div class="map-legend"><span id="legendTitle">Model score · 0–100</span><div id="legendGradient"></div><div class="legend-ticks"><span id="legendLow">0</span><span id="legendMid">50</span><span id="legendHigh">100</span></div></div></div>
+   <div class="geometry-note"><span class="badge amber">ESTIMATED GEOGRAPHY</span><span id="geometryNote">City markers summarize the study. Hexagon locations are approximate; original GIS boundaries are not supplied.</span></div>
+  </section>
+  <aside class="inspector panel" aria-label="Selected hexagon and scenario">
+   <div id="emptyInspector" class="empty-inspector"><span class="section-number">02</span><svg viewBox="0 0 80 86" aria-hidden="true"><path d="M40 5 74 24v38L40 81 6 62V24Z"/><path d="M40 24v38M23 43h34"/></svg><h2>Start with a place.</h2><p>Choose a city, then a hexagon to inspect its original measurements and create a scenario.</p><div class="empty-note">Model scores describe the supplied study data. They are not calibrated probabilities or forecasts.</div></div>
+   <div id="detail" hidden>
+    <div class="detail-head"><div><p id="selectedCity" class="eyebrow"></p><h2 id="selectedId"></h2></div><span id="splitBadge" class="badge"></span></div>
+    <div class="model-picker"><label for="modelSelect">Scoring model</label><select id="modelSelect"></select><span id="modelHelp">Scores are model outputs, not calibrated forecasts.</span></div>
+    <div class="score-grid"><div class="baseline"><span id="baselineLabel">Baseline score</span><strong id="baselineScore">—</strong><small>out of 100</small></div><div class="scenario"><span>Scenario score</span><strong id="scenarioScore" aria-live="polite">—</strong><small id="delta">No changes</small></div></div>
+    <details class="model-comparison"><summary>Compare all five models</summary><div id="modelScores"></div></details>
+    <div class="observed-row"><div><strong id="incidents">—</strong><span>recorded incidents</span></div><div><strong id="population">—</strong><span>recorded population</span></div></div>
+    <div class="detail-tabs" role="tablist" aria-label="Hexagon details"><button role="tab" aria-selected="true" aria-controls="tab-scenario" id="trigger-scenario" class="active" data-tab="scenario">Edit variables</button><button role="tab" aria-selected="false" aria-controls="tab-context" id="trigger-context" data-tab="context">Original data</button><button role="tab" aria-selected="false" aria-controls="tab-explain" id="trigger-explain" data-tab="explain">Model drivers</button><button role="tab" aria-selected="false" aria-controls="tab-optimizer" id="trigger-optimizer" data-tab="optimizer">Optimize</button></div>
+    <div id="tab-scenario" class="detail-tab active" role="tabpanel" aria-labelledby="trigger-scenario">
+     <p class="helper">Open a topic and adjust a slider or number. Scores update automatically. These are model experiments, not proven intervention effects.</p>
+     <div class="scenario-tools"><span id="changeCount">Baseline · no changes</span><div><button id="undo" class="text-button" disabled>Undo</button><button id="reset" class="text-button" disabled>Reset</button></div></div>
+     <div id="controls"></div>
+     <div id="changes"></div><div id="scenarioWarnings" class="warnings"></div>
+     <details class="sensitivity"><summary>Explore a model response</summary><p class="helper">Vary one input with the selected model, holding other inputs fixed.</p><label class="field">Variable<select id="sensitivityFeature"></select></label><button id="runSensitivity" class="small">Plot response</button><div id="sensitivityChart"></div></details>
+     <div class="save-box"><label class="field">Scenario name<input id="scenarioName" maxlength="100" placeholder="e.g. Community facilities · option A"></label><div class="button-row"><button id="save" class="primary" disabled>Save scenario</button><button id="export" class="secondary">Export JSON ↓</button></div><p>Saved locally in this digital twin’s database.</p></div>
+    </div>
+    <div id="tab-optimizer" class="detail-tab" role="tabpanel" aria-labelledby="trigger-optimizer" hidden><p class="helper">Search from the original baseline within the study bounds. Running this replaces your current edits; Undo restores them. The search tests boundary values and does not guarantee a global minimum.</p><button id="runOptimize" class="primary">Run optimizer</button><div id="optimizerResult"></div></div>
+    <div id="tab-context" class="detail-tab" role="tabpanel" aria-labelledby="trigger-context" hidden><p class="helper">Original units verified against all 22 model inputs. Unclear source definitions remain labeled as source units.</p><div id="qualityWarnings" class="warnings"></div><div id="context"></div></div>
+    <div id="tab-explain" class="detail-tab" role="tabpanel" aria-labelledby="trigger-explain" hidden><h3>What shaped the LightGBM baseline?</h3><p class="helper">LightGBM explanations only, even when another scoring model is selected. Contributions are in log-odds. These explain the prediction, not causation. They do not change with your scenario.</p><div class="driver-key"><span>← Lower output</span><span>Higher output →</span></div><div id="drivers"></div><p id="percentile" class="helper"></p></div>
+   </div>
+  </aside>
+ </div>
+ <div class="study-foot"><span>RESEARCH SNAPSHOT</span><p id="period">Observation dates are not recorded in the supplied tables.</p><button class="text-button" data-view="evidence">Read the evidence →</button></div>
+</section>
+<section id="view-saved" class="view content-view" aria-label="Scenario library" hidden><p class="eyebrow">REPRODUCIBLE EXPLORATION</p><div class="section-title"><div><h1>Your scenario library.</h1><p class="subtitle">Compare assumptions and model responses. Each snapshot keeps its data and model versions.</p></div><button id="exportLibrary" class="secondary">Export library ↓</button></div><div id="savedEmpty" class="large-empty"><h2>A place for your alternatives.</h2><p>Select a hexagon, adjust variables, and save your first scenario.</p><button class="primary" data-view="explore">Explore the study →</button></div><div id="savedTable"></div><p class="helper">Scores from different hexagons are not intervention-effect comparisons. Use the same hexagon and versions for controlled scenario comparisons.</p></section>
+<section id="view-evidence" class="view content-view" aria-label="Data and model evidence" hidden><p class="eyebrow">TRANSPARENCY BY DESIGN</p><h1>Know what sits beneath the score.</h1><p class="subtitle">Actual project observations, a fixed model, and explicit limits on interpretation.</p><div id="evidence"></div></section>
+</main>
+<footer class="app-footer"><span>STUDY ATLAS / DIGITAL TWIN</span><span id="version">Loading verified artifacts…</span></footer>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+<script src="/static/app.js"></script>
+</body></html>

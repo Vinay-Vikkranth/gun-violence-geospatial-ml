@@ -1,0 +1,8 @@
+cff-version: 1.2.0
+message: "See docs/PROVENANCE.md for research attribution and publication status."
+title: "gun-violence-geospatial-ml"
+type: software
+authors:
+  - family-names: Subramanian
+    given-names: Vinay Vikkranth
+repository-code: "https://github.com/Vinay-Vikkranth/gun-violence-geospatial-ml"
