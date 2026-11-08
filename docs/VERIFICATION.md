@@ -18,3 +18,7 @@ GitHub Actions repeats those commands on a clean Ubuntu runner. Workflow status 
 The public grouped-split demonstration and all three regression checks passed. Research preparation recreates the expected isolated input layout. The complete main research notebook was freshly executed successfully (26 code cells). Study Atlas also loaded 11,448 records across 35 cities and all five models in the copied workspace; health and baseline scoring checks passed using copied existing artifacts and the matching original runtime. The artifact builders and full UI suite were not rerun.
 
 The initial uploaded commit passed GitHub Actions on a clean Ubuntu runner. The final commit is checked again after the documentation update. No raw research input is part of either commit.
+
+## ArcGIS README galleries
+
+November 7: two native ArcGIS maps added with project-specific captions, retained basemap attribution and visual inspection. Homelessness reuses the existing paper exports; gun violence and Twitter use newly exported ArcGIS Pro 3.6 layouts from verified source layers. See MAP_PROVENANCE.md for counts, CRS and prototype versus final-study distinctions. No analysis/model code changed.

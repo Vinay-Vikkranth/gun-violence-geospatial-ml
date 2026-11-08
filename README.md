@@ -6,6 +6,22 @@
 
 A multi-city ASU Quark Lab study of structural spatial risk patterns across **35 U.S. metropolitan areas and 11,448 hexagonal cells**. The repository contains the research notebooks, five-model comparison workflow, and the source of **Study Atlas**, a local map-based model inspection application. A separate synthetic demonstration makes the evaluation workflow runnable without redistributing enriched research data.
 
+## Maps from the GIS work
+
+These **native ArcGIS Pro exports use actual project source layers**. They make the spatial preparation work visible. The Chicago grid is an earlier prototype and the Boston facility view shows source inputs; neither should be mistaken for a map of final model risk scores.
+
+### Chicago hexagon and landmark prototype
+
+![Native ArcGIS Pro export of the Chicago prototype hexagon grid colored by landmark counts](docs/assets/gun-chicago-prototype-arcgis.png)
+
+The source shapefile contains **347 hexagonal polygons and 616 recorded landmarks**. Colors show the recorded `lm_count` field, demonstrating the grid and point-of-interest enrichment workflow. This earlier `HEX_*` prototype is distinct from the **320 Chicago rows** in the final 35-city `GRID_ID` model table. It does not display model predictions.
+
+### Boston boundary and facility inputs
+
+![Native ArcGIS Pro export of the Boston municipal boundary with schools, universities and hospitals](docs/assets/gun-boston-facilities-arcgis.png)
+
+Source points inside the supplied municipal boundary comprise **270 schools, 25 universities and 26 hospitals**. The boundary includes water. These are spatially filtered source features, not final-model feature totals or an evaluation result. [Map provenance](docs/MAP_PROVENANCE.md) records the inputs, native export method and scope distinctions.
+
 ![Project architecture](docs/assets/pipeline.png)
 
 ## Quick start
