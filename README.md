@@ -1,5 +1,7 @@
 # Gun Violence Prediction: Geospatial Machine Learning
 
+[![Validate public sample](https://github.com/Vinay-Vikkranth/gun-violence-geospatial-ml/actions/workflows/validate.yml/badge.svg)](https://github.com/Vinay-Vikkranth/gun-violence-geospatial-ml/actions/workflows/validate.yml)
+
 **Python · Five classical classifiers · Geographic evaluation · SHAP · FastAPI / SQLite**
 
 A multi-city ASU Quark Lab study of structural spatial risk patterns across **35 U.S. metropolitan areas and 11,448 hexagonal cells**. The repository contains the research notebooks, five-model comparison workflow, and the source of **Study Atlas**, a local map-based model inspection application. A separate synthetic demonstration makes the evaluation workflow runnable without redistributing enriched research data.
@@ -68,3 +70,9 @@ The source application needs its research artifacts and approved data before it 
 Satpathy, Asish; Subramanian, Vinay Vikkranth; Tiwari, Avantika. **A Harmonized Multi-City Architecture for Structural Spatial Risk Modeling**, AMCIS 2026, paper 1353. [Official AIS proceedings record](https://aisel.aisnet.org/amcis2026/sig_dsa/sig_dsa/9/).
 
 The proceedings record confirms publication and coauthorship. The repository does not redistribute the publisher PDF or imply that every application component appeared in the paper. [NOTICE](NOTICE.md) explains reuse and collaborative attribution.
+
+## Recorded research evidence
+
+![Recorded research results](docs/assets/research-results.png)
+
+Historical experiments have different splits and configurations. This comparison illustrates geographic transfer limits; it does not rank models under a common benchmark.
